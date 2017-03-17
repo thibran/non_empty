@@ -2,5 +2,4 @@
 name = "non_empty"
 version = "0.1.0"
 authors = ["Thibaut Brandscheid <randaltor@web.de>"]
-
-[dependencies]
+description = "Create to wrap values in NonEmpty<T> using the TryNonEmpty trait"
