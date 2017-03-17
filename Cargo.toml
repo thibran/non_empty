@@ -1,0 +1,6 @@
+[package]
+name = "non_empty"
+version = "0.1.0"
+authors = ["Thibaut Brandscheid <randaltor@web.de>"]
+
+[dependencies]
