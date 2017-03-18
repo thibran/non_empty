@@ -56,9 +56,22 @@
 //!
 //! let s: StringNE = "hello".to_string().try_non_empty().unwrap();
 //! ```
+//!
+//! **Tip2**: Use the provided helper functions like [try_non_empty2](fn.try_non_empty2.html)
+//! to convert multiple values at once to a tuple of [NonEmpty](struct.NonEmpty.html)'s.
+//!
+//! ```
+//! # use non_empty::{NonEmpty, try_non_empty2};
+//! let (a, b): (NonEmpty<&str>, NonEmpty<i32>) = try_non_empty2("a", 1).unwrap();
+//!
+//! assert_eq!("a", *a);
+//! assert_eq!(1, *b);
+//! ```
 
 mod is_empty;
+mod helper_try_convert;
 pub use is_empty::IsEmpty;
+pub use helper_try_convert::*;
 
 /// Struct owning a non-empty value.
 ///
@@ -91,6 +104,14 @@ impl<T> AsRef<T> for NonEmpty<T> {
     /// Reference to the inner type `T`.
     #[inline]
     fn as_ref(&self) -> &T {
+        &self.inner
+    }
+}
+
+impl<T> std::borrow::Borrow<T> for NonEmpty<T> {
+    /// Reference to the inner type `T`.
+    #[inline]
+    fn borrow(&self) -> &T {
         &self.inner
     }
 }
@@ -147,7 +168,7 @@ impl<T: IsEmpty + Sized> TryNonEmpty for T {
 
     /// The only way to create a [NonEmpty](struct.NonEmpty.html) struct.
     #[inline]
-    fn try_non_empty(self) -> Option<NonEmpty<Self>> {
+    fn try_non_empty(self) -> Option<NonEmpty<T>> {
         if ! &self.is_empty() {
             Some(NonEmpty { inner: self })
         } else {
@@ -156,14 +177,10 @@ impl<T: IsEmpty + Sized> TryNonEmpty for T {
     }
 }
 
-// TODO check if Dref could be implemented for NonEmpty.
 
-
-
-
-///////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 // TYPE-ALIASES
-///////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 
 /// Non-empty `String`
 pub type StringNE = NonEmpty<String>;
@@ -257,11 +274,61 @@ pub type f64NE = NonEmpty<f64>;
 
 #[cfg(test)]
 mod tests {
-    use super::TryNonEmpty;
+    use super::*;
 
     #[test]
     fn okay() {
         assert!("".try_non_empty().is_none());
         assert_eq!("bar", "bar".try_non_empty().unwrap().into_inner());
     }
+
+    // #[test]
+    // fn test_try_convert2() {
+    //     assert!(try_convert2("a", 0).is_none());
+    //     let (a, b) = try_convert2("a", 1).unwrap();
+    //     assert_eq!("a", *a);
+    //     assert_eq!(1, *b);
+    // }
+
+    // #[test]
+    // fn test_try_convert3() {
+    //     assert!(try_convert3("a", 0, 5_f32).is_none());
+    //     let (a, b, c) = try_convert3("a", 1, 5_f32).unwrap();
+    //     assert_eq!("a", *a);
+    //     assert_eq!(1, *b);
+    //     assert_eq!(5_f32, *c);
+    // }
+
+    // #[test]
+    // fn test_try_convert4() {
+    //     assert!(try_convert4("a", 0, 5_f32, 3).is_none());
+    //     let (a, b, c, d) = try_convert4("a", 1, 5_f32, 3).unwrap();
+    //     assert_eq!("a", *a);
+    //     assert_eq!(1, *b);
+    //     assert_eq!(5_f32, *c);
+    //     assert_eq!(3, *d);
+    // }
+
+    // #[test]
+    // fn test_try_convert5() {
+    //     assert!(try_convert5("a", 0, 5_f32, 3, "b").is_none());
+    //     let (a, b, c, d, e) = try_convert5("a", 1, 5_f32, 3, "b").unwrap();
+    //     assert_eq!("a", *a);
+    //     assert_eq!(1, *b);
+    //     assert_eq!(5_f32, *c);
+    //     assert_eq!(3, *d);
+    //     assert_eq!("b", *e);
+    // }
+
+    // #[test]
+    // fn test_try_convert6() {
+    //     assert!(try_convert6("a", 0, 5_f32, 3, "b", 4_f64).is_none());
+    //     let (a, b, c, d, e, f) = try_convert6("a", 1, 5_f32, 3, "b", 4_f64).unwrap();
+    //     assert_eq!("a", *a);
+    //     assert_eq!(1, *b);
+    //     assert_eq!(5_f32, *c);
+    //     assert_eq!(3, *d);
+    //     assert_eq!("b", *e);
+    //     assert_eq!(4_f64, *f);
+    // }
 }

@@ -2,7 +2,7 @@
 
 Create around the `NonEmpty` struct, wrapping a non-empty value.
 
-Version: 0.1.0
+Version: 0.1.1
 
 
 ## Installation
@@ -70,4 +70,14 @@ shorten e.g. `NonEmpty<String>` to `StringNE`.
 use non_empty::{StringNE, TryNonEmpty};
 
 let s: StringNE = "hello".to_string().try_non_empty().unwrap();
+```
+
+**Tip2**: Use the provided helper functions like [try_non_empty2](fn.try_non_empty2.html)
+to convert multiple values at once to a tuple of [NonEmpty](struct.NonEmpty.html)'s.
+
+```rust
+let (a, b): (NonEmpty<&str>, NonEmpty<i32>) = try_non_empty2("a", 1).unwrap();
+
+assert_eq!("a", *a);
+assert_eq!(1, *b);
 ```
