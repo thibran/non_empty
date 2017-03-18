@@ -4,7 +4,6 @@
 //!
 //! # Examples
 //! ```
-//!
 //! use non_empty::{NonEmpty, TryNonEmpty};
 //!
 //! let s: NonEmpty<&str> = "hello".try_non_empty().unwrap();

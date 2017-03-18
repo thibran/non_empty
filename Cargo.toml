@@ -4,4 +4,6 @@ version = "0.1.0"
 authors = ["Thibaut Brandscheid <randaltor@web.de>"]
 description = "Create to wrap values in NonEmpty<T> using the TryNonEmpty trait"
 license = "BSD 2-Clause"
+readme = "README.md"
+repository = "https://github.com/thibran/non_empty"
 categories = ["data-structures", "rust-patterns"]
