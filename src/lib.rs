@@ -93,6 +93,7 @@ pub use non_empty_into::*;
 /// // use alias-types like StringNE, to improve the readability of the type.
 /// let s: StringNE = "hello".to_string().try_non_empty().unwrap();
 /// ```
+#[derive(Clone, PartialEq, Debug)]
 pub struct NonEmpty<T> {
     inner: T,
 }
@@ -162,14 +163,15 @@ impl<T> std::ops::Deref for NonEmpty<T> {
 ///
 /// assert!(Point(0,0).try_non_empty().is_none());
 /// ```
-pub trait TryNonEmpty: Sized + IsEmpty {
+pub trait TryNonEmpty: IsEmpty + Sized + Clone {
 
     /// Only way to create a [NonEmpty](struct.NonEmpty.html) struct.
     fn try_non_empty(self) -> Option<NonEmpty<Self>>;
 }
 
-impl<T: IsEmpty + Sized> TryNonEmpty for T {
-
+impl<T> TryNonEmpty for T
+    where T: IsEmpty + Sized + Clone
+{
     /// The only way to create a [NonEmpty](struct.NonEmpty.html) struct.
     #[inline]
     fn try_non_empty(self) -> Option<NonEmpty<T>> {
