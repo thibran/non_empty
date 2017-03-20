@@ -32,9 +32,11 @@
 //! ```
 //!
 //! [NonEmpty](struct.NonEmpty.html) implements the
-//! [AsRef](https://doc.rust-lang.org/std/convert/trait.AsRef.html)
-//! and [Deref](https://doc.rust-lang.org/std/ops/trait.Deref.html) traits to easily access
-//! its inner value.
+//! [Deref](https://doc.rust-lang.org/std/ops/trait.Deref.html),
+//! [AsRef](https://doc.rust-lang.org/std/convert/trait.AsRef.html),
+//! [Borrow](https://doc.rust-lang.org/collections/borrow/trait.Borrow.html)
+//! and [Into](https://doc.rust-lang.org/std/convert/trait.Into.html)
+//! traits to easily access its inner value.
 //!
 //! ```
 //! # use non_empty::{NonEmpty, TryNonEmpty};
@@ -69,9 +71,11 @@
 //! ```
 
 mod is_empty;
+mod non_empty_into;
 mod helper_try_convert;
 pub use is_empty::IsEmpty;
 pub use helper_try_convert::*;
+pub use non_empty_into::*;
 
 /// Struct owning a non-empty value.
 ///
@@ -281,54 +285,4 @@ mod tests {
         assert!("".try_non_empty().is_none());
         assert_eq!("bar", "bar".try_non_empty().unwrap().into_inner());
     }
-
-    // #[test]
-    // fn test_try_convert2() {
-    //     assert!(try_convert2("a", 0).is_none());
-    //     let (a, b) = try_convert2("a", 1).unwrap();
-    //     assert_eq!("a", *a);
-    //     assert_eq!(1, *b);
-    // }
-
-    // #[test]
-    // fn test_try_convert3() {
-    //     assert!(try_convert3("a", 0, 5_f32).is_none());
-    //     let (a, b, c) = try_convert3("a", 1, 5_f32).unwrap();
-    //     assert_eq!("a", *a);
-    //     assert_eq!(1, *b);
-    //     assert_eq!(5_f32, *c);
-    // }
-
-    // #[test]
-    // fn test_try_convert4() {
-    //     assert!(try_convert4("a", 0, 5_f32, 3).is_none());
-    //     let (a, b, c, d) = try_convert4("a", 1, 5_f32, 3).unwrap();
-    //     assert_eq!("a", *a);
-    //     assert_eq!(1, *b);
-    //     assert_eq!(5_f32, *c);
-    //     assert_eq!(3, *d);
-    // }
-
-    // #[test]
-    // fn test_try_convert5() {
-    //     assert!(try_convert5("a", 0, 5_f32, 3, "b").is_none());
-    //     let (a, b, c, d, e) = try_convert5("a", 1, 5_f32, 3, "b").unwrap();
-    //     assert_eq!("a", *a);
-    //     assert_eq!(1, *b);
-    //     assert_eq!(5_f32, *c);
-    //     assert_eq!(3, *d);
-    //     assert_eq!("b", *e);
-    // }
-
-    // #[test]
-    // fn test_try_convert6() {
-    //     assert!(try_convert6("a", 0, 5_f32, 3, "b", 4_f64).is_none());
-    //     let (a, b, c, d, e, f) = try_convert6("a", 1, 5_f32, 3, "b", 4_f64).unwrap();
-    //     assert_eq!("a", *a);
-    //     assert_eq!(1, *b);
-    //     assert_eq!(5_f32, *c);
-    //     assert_eq!(3, *d);
-    //     assert_eq!("b", *e);
-    //     assert_eq!(4_f64, *f);
-    // }
 }

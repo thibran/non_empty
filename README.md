@@ -2,7 +2,7 @@
 
 Create around the `NonEmpty` struct, wrapping a non-empty value.
 
-Version: 0.1.1
+Version: 0.2.0
 
 
 ## Installation
@@ -49,8 +49,11 @@ assert!(Point(0,0).try_non_empty().is_none());
 ```
 
 `NonEmpty` implements the
-[AsRef](https://doc.rust-lang.org/std/convert/trait.AsRef.html)
-and [Deref](https://doc.rust-lang.org/std/ops/trait.Deref.html) traits to easily access its inner value.
+[Deref](https://doc.rust-lang.org/std/ops/trait.Deref.html),
+[AsRef](https://doc.rust-lang.org/std/convert/trait.AsRef.html),
+[Borrow](https://doc.rust-lang.org/collections/borrow/trait.Borrow.html)
+and [Into](https://doc.rust-lang.org/std/convert/trait.Into.html)
+traits to easily access its inner value.
 
 ```rust
 let s: NonEmpty<String> = "hello".to_string().try_non_empty().unwrap();
