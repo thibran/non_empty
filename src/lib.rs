@@ -20,6 +20,7 @@
 //!
 //! ```
 //! # use non_empty::{IsEmpty, TryNonEmpty};
+//! #[derive(Clone)]
 //! struct Point(u32, u32);
 //!
 //! impl IsEmpty for Point {
@@ -43,7 +44,7 @@
 //! let s: NonEmpty<String> = "hello".to_string().try_non_empty().unwrap();
 //!
 //! // Deref NonEmpty<String> to &str
-//! foobar(&s); 
+//! foobar(&s);
 //!
 //! fn foobar(s: &str) {
 //!     assert_eq!("hello", s);
@@ -134,7 +135,7 @@ impl<T> std::borrow::Borrow<T> for NonEmpty<T> {
 /// let s: NonEmpty<String> = "hello".to_string().try_non_empty().unwrap();
 ///
 /// // Deref NonEmpty<String> to &str
-/// foobar(&s); 
+/// foobar(&s);
 /// ```
 impl<T> std::ops::Deref for NonEmpty<T> {
     type Target = T;
@@ -142,6 +143,18 @@ impl<T> std::ops::Deref for NonEmpty<T> {
     /// Reference to the inner type `T` of the [NonEmpty](struct.NonEmpty.html) struct.
     fn deref(&self) -> &T {
         &self.inner
+    }
+}
+
+impl<T> std::iter::IntoIterator for NonEmpty<T>
+where
+    T: std::iter::IntoIterator,
+{
+    type Item = T::Item;
+    type IntoIter = <T as std::iter::IntoIterator>::IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.inner.into_iter()
     }
 }
 
@@ -153,6 +166,7 @@ impl<T> std::ops::Deref for NonEmpty<T> {
 /// // all you have to do is to implement the IsEmpty trait.
 ///
 /// # use non_empty::{IsEmpty, TryNonEmpty};
+/// #[derive(Clone)]
 /// struct Point(u32, u32);
 ///
 /// impl IsEmpty for Point {
@@ -164,18 +178,18 @@ impl<T> std::ops::Deref for NonEmpty<T> {
 /// assert!(Point(0,0).try_non_empty().is_none());
 /// ```
 pub trait TryNonEmpty: IsEmpty + Sized + Clone {
-
     /// Only way to create a [NonEmpty](struct.NonEmpty.html) struct.
     fn try_non_empty(self) -> Option<NonEmpty<Self>>;
 }
 
 impl<T> TryNonEmpty for T
-    where T: IsEmpty + Sized + Clone
+where
+    T: IsEmpty + Sized + Clone,
 {
     /// The only way to create a [NonEmpty](struct.NonEmpty.html) struct.
     #[inline]
     fn try_non_empty(self) -> Option<NonEmpty<T>> {
-        if ! &self.is_empty() {
+        if !&self.is_empty() {
             Some(NonEmpty { inner: self })
         } else {
             None

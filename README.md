@@ -2,15 +2,16 @@
 
 Create around the `NonEmpty` struct, wrapping a non-empty value.
 
-Version: 0.2.0
+Version: 0.2.1
 
 
 ## Installation
 
-Add to your `Cargo.toml`:
+Add to `Cargo.toml`:
 ```toml
-[dependencies]
-non_empty = { git = "https://github.com/thibran/non_empty.git" }
+[dependencies.non_empty]
+git = "https://github.com/thibran/non_empty.git"
+tag = "v0.2.0"
 ```
 
 In your code, add:
@@ -37,6 +38,7 @@ is straightforward, just implement the `is_empty()`
 function of the `IsEmpty` trait.
 
 ```rust
+#[derive(Clone)]
 struct Point(u32, u32);
 
 impl IsEmpty for Point {
