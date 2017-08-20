@@ -11,7 +11,7 @@ Add to `Cargo.toml`:
 ```toml
 [dependencies.non_empty]
 git = "https://github.com/thibran/non_empty.git"
-tag = "v0.2.0"
+tag = "v0.2.1"
 ```
 
 In your code, add:
