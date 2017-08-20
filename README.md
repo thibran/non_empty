@@ -7,14 +7,14 @@ Version: 0.2.1
 
 ## Installation
 
-Add to `Cargo.toml`:
+Add this to your `Cargo.toml`:
 ```toml
 [dependencies.non_empty]
 git = "https://github.com/thibran/non_empty.git"
 tag = "v0.2.1"
 ```
 
-In your code, add:
+In your code add:
 ```rust
 extern crate non_empty;
 ```
@@ -68,7 +68,7 @@ fn foobar(s: &str) {
 }
 ```
 
-**Tip**: Use the defined [type-aliases](index.html#types) to
+**Tip**: Use the defined [type-aliases](https://github.com/thibran/non_empty/blob/master/src/lib.rs#L202) to
 shorten e.g. `NonEmpty<String>` to `StringNE`.
 
 ```rust
@@ -77,8 +77,8 @@ use non_empty::{StringNE, TryNonEmpty};
 let s: StringNE = "hello".to_string().try_non_empty().unwrap();
 ```
 
-**Tip2**: Use the provided helper functions like [try_non_empty2](fn.try_non_empty2.html)
-to convert multiple values at once to a tuple of [NonEmpty](struct.NonEmpty.html)'s.
+**Tip2**: Use the provided helper functions like [try_non_empty2](https://github.com/thibran/non_empty/blob/master/src/helper_try_convert.rs#L8v)
+to convert multiple values at once to a tuple of [NonEmpty](https://github.com/thibran/non_empty/blob/master/src/lib.rs#L98)'s.
 
 ```rust
 let (a, b): (NonEmpty<&str>, NonEmpty<i32>) = try_non_empty2("a", 1).unwrap();
